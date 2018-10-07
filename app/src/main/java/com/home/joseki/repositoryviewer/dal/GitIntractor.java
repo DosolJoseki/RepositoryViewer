@@ -21,6 +21,9 @@ import com.home.joseki.repositoryviewer.models.Commits;
 import com.home.joseki.repositoryviewer.models.Contributors;
 import com.home.joseki.repositoryviewer.models.GitResult;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -217,7 +220,7 @@ public class GitIntractor implements MainListContract.MainListIntactor, CommitsC
 
     @Override
     public Single<Boolean> isOnline() {
-        return Single.fromCallable(new Callable<Boolean>() {
+        /*return Single.fromCallable(new Callable<Boolean>() {
             @Override
             public Boolean call(){
                 try {
@@ -233,7 +236,26 @@ public class GitIntractor implements MainListContract.MainListIntactor, CommitsC
                 }
             }
         }).subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread());
+          .observeOn(AndroidSchedulers.mainThread());*/
+
+        return Single.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() {
+                try {
+                    int timeoutMs = 1500;
+                    Socket socket = new Socket();
+                    InetSocketAddress socketAddress = new InetSocketAddress("8.8.8.8", 53);
+
+                    socket.connect(socketAddress, timeoutMs);
+                    socket.close();
+
+                    return true;
+                } catch (IOException e) {
+                    return false;
+                }
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 }
