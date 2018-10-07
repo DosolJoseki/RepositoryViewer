@@ -46,7 +46,7 @@ public class GitIntractor implements MainListContract.MainListIntactor, CommitsC
     private IGitMassage messagesApi;
     private AppDatabase db;
 
-    @Database(entities = {GitResult.class, Contributors.class, Commits.class}, version = 2, exportSchema = false)
+    @Database(entities = {GitResult.class, Contributors.class, Commits.class}, version = 1, exportSchema = false)
     abstract static class AppDatabase extends RoomDatabase {
         abstract DaoGitResult resultDao();
     }
@@ -79,7 +79,7 @@ public class GitIntractor implements MainListContract.MainListIntactor, CommitsC
     }
 
     @Override
-    public Flowable<List<Commits>> getRoomCommits(String url) {
+    public Flowable<List<Commits>> getRoomCommitsByUrl(String url) {
         return  db.resultDao().getCommitsByUrl(url);
     }
 
@@ -126,7 +126,7 @@ public class GitIntractor implements MainListContract.MainListIntactor, CommitsC
     }
 
     @Override
-    public void addRoomCommits(final List<Commits> list) {
+    public long addRoomCommits(final List<Commits> list) {
         io.reactivex.Completable.fromAction(new Action() {
             @Override
             public void run() {
@@ -149,6 +149,7 @@ public class GitIntractor implements MainListContract.MainListIntactor, CommitsC
 
                     }
                 });
+        return 0;
     }
 
     @Override

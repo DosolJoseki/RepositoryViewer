@@ -10,6 +10,7 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -39,7 +40,9 @@ public class CommitsPresenter implements CommitsContract.PresenterInterface {
             view.showProgress(true);
         }
 
-        noticeIntactor.isOnline().subscribe(new Consumer<Boolean>() {
+        final CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+        compositeDisposable.add(noticeIntactor.isOnline().subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) {
                 if (aBoolean){
@@ -95,20 +98,24 @@ public class CommitsPresenter implements CommitsContract.PresenterInterface {
                                                if(view != null){
                                                    view.showProgress(false);
                                                }
+                                               compositeDisposable.dispose();
                                            }
                                        }
                             );
                 } else {
                     view.showToast(noticeIntactor.getResourceString(R.string.error_string_no_internet_connection));
+                    compositeDisposable.dispose();
                 }
             }
-        });
+        }));
     }
 
     @Override
     public void getRoomData() {
-        noticeIntactor
-                .getRoomCommits(project.getUrl())
+        final CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+        compositeDisposable.add(noticeIntactor
+                .getRoomCommitsByUrl("%" + project.getUrl() + "%")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .take(1)
@@ -120,8 +127,9 @@ public class CommitsPresenter implements CommitsContract.PresenterInterface {
                         } else {
                             view.setDataToListView(gitResults);
                         }
+                        compositeDisposable.dispose();
                     }
-                });
+                }));
     }
 
     @Override

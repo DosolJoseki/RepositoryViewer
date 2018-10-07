@@ -11,6 +11,7 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -36,8 +37,9 @@ public class ContributorsPresenter implements ContributorContract.PresenterInter
         if(view != null){
             view.showProgress(true);
         }
+        final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-        noticeIntactor.isOnline().subscribe(new Consumer<Boolean>() {
+        compositeDisposable.add(noticeIntactor.isOnline().subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) {
                 if (aBoolean){
@@ -91,19 +93,23 @@ public class ContributorsPresenter implements ContributorContract.PresenterInter
                                                if(view != null){
                                                    view.showProgress(false);
                                                }
+                                               compositeDisposable.dispose();
                                            }
                                        }
                             );
                 } else {
                     view.showToast(noticeIntactor.getResourceString(R.string.error_string_no_internet_connection));
+                    compositeDisposable.dispose();
                 }
             }
-        });
+        }));
     }
 
     @Override
     public void getRoomData() {
-        noticeIntactor
+        final CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+        compositeDisposable.add(noticeIntactor
                 .getRoomContributorsByUrl(project.getUrl())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -116,8 +122,9 @@ public class ContributorsPresenter implements ContributorContract.PresenterInter
                         } else {
                             view.setDataToListView(gitResults);
                         }
+                        compositeDisposable.dispose();
                     }
-                });
+                }));
     }
 
     @Override

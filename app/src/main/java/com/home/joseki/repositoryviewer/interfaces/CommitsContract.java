@@ -29,7 +29,7 @@ public interface CommitsContract {
 
     interface CommitsIntactor extends CoreIntractor{
         Observable<Response<List<Commits>>> getHttpCommitsProjects(String repo, int page);
-        Flowable<List<Commits>> getRoomCommits(String url);
-        void addRoomCommits(List<Commits> list);
+        Flowable<List<Commits>> getRoomCommitsByUrl(String url);
+        long addRoomCommits(List<Commits> list);
     }
 }

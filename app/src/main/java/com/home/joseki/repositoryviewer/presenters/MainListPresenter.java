@@ -9,6 +9,7 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -35,7 +36,9 @@ public class MainListPresenter implements MainListContract.PresenterInterface {
             mainView.showProgress(true);
         }
 
-        noticeIntactor.isOnline().subscribe(new Consumer<Boolean>() {
+        final CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+        compositeDisposable.add(noticeIntactor.isOnline().subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) {
                 if (aBoolean){
@@ -91,18 +94,22 @@ public class MainListPresenter implements MainListContract.PresenterInterface {
                                                if(mainView != null){
                                                    mainView.showProgress(false);
                                                }
+                                               compositeDisposable.dispose();
                                            }
                                        }
                             );
                 } else {
                     mainView.showToast(noticeIntactor.getResourceString(R.string.error_string_no_internet_connection));
+                    compositeDisposable.dispose();
                 }
             }
-        });
+        }));
     }
 
     @Override
     public void getRoomData() {
+        final CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(
         noticeIntactor
                 .getRoomProjects()
                 .subscribeOn(Schedulers.io())
@@ -116,8 +123,9 @@ public class MainListPresenter implements MainListContract.PresenterInterface {
                         } else {
                             mainView.setDataToListView(gitResults);
                         }
+                        compositeDisposable.dispose();
                     }
-                });
+                }));
     }
 
     @Override

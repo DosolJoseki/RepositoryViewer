@@ -33,11 +33,11 @@ public class Commits {
     @Embedded
     private Committer committer;
 
-    @PrimaryKey
-    @NotNull
     private String url;
 
+    @PrimaryKey
     @ColumnInfo(name = "node_id_commits")
+    @NotNull
     private String node_id;
 
     public String getHtml_url ()

@@ -35,7 +35,7 @@ public interface DaoGitResult {
     @Query("DELETE FROM Contributors")
     void clearContributorsTable();
 
-    @Query("DELETE FROM Commits WHERE url = :url")
+    @Query("DELETE FROM Commits WHERE url LIKE :url")
     void clearCommitsByUrl(String url);
 
     @Query("DELETE FROM Contributors WHERE url = :url")
@@ -44,7 +44,7 @@ public interface DaoGitResult {
     @Query("SELECT * FROM GitResult WHERE gitresult_name = :name")
     Flowable<List<GitResult>> getByName(String name);
 
-    @Query("SELECT * FROM Commits WHERE url = :url")
+    @Query("SELECT * FROM Commits WHERE url LIKE :url")
     Flowable<List<Commits>> getCommitsByUrl(String url);
 
     @Query("SELECT * FROM Contributors WHERE url = :url")
