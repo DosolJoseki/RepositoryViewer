@@ -4,10 +4,10 @@ import com.home.joseki.repositoryviewer.interfaces.MainContract;
 import com.home.joseki.repositoryviewer.models.GitResult;
 
 public class MainPresenter implements MainContract.PresenterInterface {
-    private MainContract.ActivityViewInterface view = null;
-    private MainContract.IActivityIntactor intractor = null;
+    private MainContract.ActivityViewInterface view;
+    private MainContract.IActivityIntactor intractor;
 
-    public MainPresenter(MainContract.ActivityViewInterface avi, MainContract.IActivityIntactor i){
+    MainPresenter(MainContract.ActivityViewInterface avi, MainContract.IActivityIntactor i){
         view = avi;
         intractor = i;
     }

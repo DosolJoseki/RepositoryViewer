@@ -32,16 +32,12 @@ public class ContributorsFragment extends Fragment implements ContributorContrac
     ContributorsAdapter contributorsAdapter = null;
     RecyclerView contrListView = null;
 
-    private Context context = null;
-    private MainActivity activity = null;
-    private RecyclerView.LayoutManager layoutManager = null;
     private SwipeRefreshLayout swipeRefreshLayout = null;
     private ContributorContract.PresenterInterface presenter = null;
-    private GitResult result;
     private TextView appName;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_contributes, null);
     }
@@ -55,11 +51,12 @@ public class ContributorsFragment extends Fragment implements ContributorContrac
     public void onResume() {
         super.onResume();
 
-        context = getContext();
-        activity = (MainActivity)getActivity();
+        Context context = getContext();
+        MainActivity activity = (MainActivity) getActivity();
         contributorsAdapter = new ContributorsAdapter();
-        layoutManager = new LinearLayoutManager(activity);
-        swipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.srlContr);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
+        assert activity != null;
+        swipeRefreshLayout = activity.findViewById(R.id.srlContr);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -67,16 +64,18 @@ public class ContributorsFragment extends Fragment implements ContributorContrac
             }
         });
 
-        contrListView = (RecyclerView)activity.findViewById(R.id.rv_fc_contribute_list);
+        contrListView = activity.findViewById(R.id.rv_fc_contribute_list);
         contrListView.setLayoutManager(layoutManager);
         contrListView.setAdapter(contributorsAdapter);
 
-        appName = (TextView)activity.findViewById(R.id.tv_fc_proj_name);
+        appName = activity.findViewById(R.id.tv_fc_proj_name);
 
         Gson gson = new Gson();
         Bundle bundle = getArguments();
-        result = gson.fromJson(bundle.getString(getString(R.string.git_res_instance)), GitResult.class);
+        assert bundle != null;
+        GitResult result = gson.fromJson(bundle.getString(getString(R.string.git_res_instance)), GitResult.class);
 
+        assert context != null;
         presenter = new ContributorsPresenter(this, new GitIntractor(context, activity), result);
 
         presenter.getRoomData();

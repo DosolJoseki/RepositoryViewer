@@ -3,11 +3,8 @@ package com.home.joseki.repositoryviewer.models;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.Relation;
 import android.arch.persistence.room.TypeConverters;
 
-import com.home.joseki.repositoryviewer.dal.Convertors;
 import com.home.joseki.repositoryviewer.dal.ConvertorsWeeks;
 
 import org.jetbrains.annotations.NotNull;

@@ -6,7 +6,6 @@ import com.home.joseki.repositoryviewer.interfaces.ContributorContract;
 import com.home.joseki.repositoryviewer.models.Contributors;
 import com.home.joseki.repositoryviewer.models.GitResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -18,10 +17,10 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
 public class ContributorsPresenter implements ContributorContract.PresenterInterface {
-    private ContributorContract.ContributorViewInterface view = null;
-    private ContributorContract.ContributorIntactor noticeIntactor = null;
+    private ContributorContract.ContributorViewInterface view;
+    private ContributorContract.ContributorIntactor noticeIntactor;
 
-    private GitResult project = null;
+    private GitResult project;
     private boolean isRefreshing = false;
 
     public ContributorsPresenter(ContributorContract.ContributorViewInterface mvi, ContributorContract.ContributorIntactor gni, GitResult result){
@@ -57,6 +56,7 @@ public class ContributorsPresenter implements ContributorContract.PresenterInter
                                            @Override
                                            public void onNext(Response<List<Contributors>> gitResults) {
                                                if(gitResults == null || gitResults.body() == null){
+                                                   assert gitResults != null;
                                                    if(gitResults.errorBody() != null){
                                                        try {
                                                            view.showToast(gitResults.errorBody().string());
@@ -132,7 +132,7 @@ public class ContributorsPresenter implements ContributorContract.PresenterInter
         for(Contributors contributor: list){
             contributor.setUrl(project.getUrl());
         }
-        long i = noticeIntactor.addRoomContributors(list);
+        noticeIntactor.addRoomContributors(list);
     }
 
     @Override

@@ -18,12 +18,12 @@ import retrofit2.Response;
 
 
 public class CommitsPresenter implements CommitsContract.PresenterInterface {
-    private CommitsContract.CommitsViewInterface view = null;
-    private CommitsContract.CommitsIntactor noticeIntactor = null;
+    private CommitsContract.CommitsViewInterface view;
+    private CommitsContract.CommitsIntactor noticeIntactor;
 
     private boolean isRefreshing = false;
-    private int currentPage = 1;
-    private GitResult project = null;
+    private int currentPage;
+    private GitResult project;
 
     public CommitsPresenter(CommitsContract.CommitsViewInterface mvi, CommitsContract.CommitsIntactor gni, GitResult result){
         view = mvi;
@@ -60,6 +60,7 @@ public class CommitsPresenter implements CommitsContract.PresenterInterface {
                                            @Override
                                            public void onNext(Response<List<Commits>> gitResults) {
                                                if(gitResults == null || gitResults.body() == null){
+                                                   assert gitResults != null;
                                                    if(gitResults.errorBody() != null){
                                                        try {
                                                            view.showToast(gitResults.errorBody().string());

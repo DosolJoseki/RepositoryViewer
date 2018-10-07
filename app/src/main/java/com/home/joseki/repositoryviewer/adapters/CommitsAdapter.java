@@ -30,11 +30,6 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitVi
         notifyDataSetChanged();
     }
 
-    public void clearItems(){
-        commitList.clear();
-        notifyDataSetChanged();
-    }
-
     class CommitViewHolder extends RecyclerView.ViewHolder {
         private TextView tvCommitDate;
         private TextView tvCommitName;
@@ -44,10 +39,10 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitVi
         CommitViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            ivUserIcon = (ImageView) itemView.findViewById(R.id.iv_lcommit_user_icon);
-            tvCommitDate = (TextView) itemView.findViewById(R.id.tv_lcommit_date);
-            tvCommitName = (TextView) itemView.findViewById(R.id.tv_lcommit_name);
-            tvUserName = (TextView) itemView.findViewById(R.id.tv_lcommit_user);
+            ivUserIcon = itemView.findViewById(R.id.iv_lcommit_user_icon);
+            tvCommitDate = itemView.findViewById(R.id.tv_lcommit_date);
+            tvCommitName = itemView.findViewById(R.id.tv_lcommit_name);
+            tvUserName = itemView.findViewById(R.id.tv_lcommit_user);
         }
 
         void bind(Commits commits){
@@ -86,8 +81,6 @@ public class CommitsAdapter extends RecyclerView.Adapter<CommitsAdapter.CommitVi
 
     @Override
     public void onBindViewHolder(@NonNull CommitsAdapter.CommitViewHolder holder, int position, @NonNull List<Object> payloads) {
-        final Commits element = commitList.get(position);
-
         super.onBindViewHolder(holder, position, payloads);
     }
 

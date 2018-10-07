@@ -4,9 +4,6 @@ import android.arch.persistence.room.Entity;
 
 @Entity
 public class Verification {
-    public Verification(){
-
-    };
 
     private String reason;
 

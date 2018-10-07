@@ -19,9 +19,9 @@ import retrofit2.Response;
 
 public class MainListPresenter implements MainListContract.PresenterInterface {
 
-    private MainListContract.MainViewInterface mainView = null;
-    private MainListContract.MainListIntactor noticeIntactor = null;
-    private int currentPage = 1;
+    private MainListContract.MainViewInterface mainView;
+    private MainListContract.MainListIntactor noticeIntactor;
+    private int currentPage;
     private boolean isRefreshing = false;
 
     public MainListPresenter(MainListContract.MainViewInterface mvi, MainListContract.MainListIntactor gni){
@@ -56,6 +56,7 @@ public class MainListPresenter implements MainListContract.PresenterInterface {
                                            @Override
                                            public void onNext(Response<List<GitResult>> gitResults) {
                                                if(gitResults == null || gitResults.body() == null){
+                                                   assert gitResults != null;
                                                    if(gitResults.errorBody() != null){
                                                        try {
                                                            mainView.showToast(gitResults.errorBody().string());

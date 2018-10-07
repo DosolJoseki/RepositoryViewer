@@ -32,12 +32,9 @@ public class MainListFragment extends Fragment implements MainListContract.MainV
     ProjectsAdapter projectsAdapter = null;
     RecyclerView projListView = null;
 
-    private Context context = null;
     private MainActivity activity = null;
-    private RecyclerView.LayoutManager layoutManager = null;
     private SwipeRefreshLayout swipeRefreshLayout = null;
     private MainListContract.PresenterInterface presenter = null;
-    private TextView appName = null;
 
     @Nullable
     @Override
@@ -49,11 +46,11 @@ public class MainListFragment extends Fragment implements MainListContract.MainV
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        context = getContext();
+        Context context = getContext();
         activity = (MainActivity)getActivity();
         projectsAdapter = new ProjectsAdapter();
-        layoutManager = new LinearLayoutManager(activity);
-        swipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.srlProj);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
+        swipeRefreshLayout = activity.findViewById(R.id.srlProj);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -61,13 +58,14 @@ public class MainListFragment extends Fragment implements MainListContract.MainV
             }
         });
 
-        projListView = (RecyclerView)activity.findViewById(R.id.rvProjectList);
+        projListView = activity.findViewById(R.id.rvProjectList);
         projListView.setLayoutManager(layoutManager);
         projListView.setAdapter(projectsAdapter);
 
-        appName = (TextView)activity.findViewById(R.id.tv_fm_proj_name);
+        TextView appName = activity.findViewById(R.id.tv_fm_proj_name);
         appName.setText(getString(R.string.app_name));
 
+        assert context != null;
         presenter = new MainListPresenter(this, new GitIntractor(context, activity));
 
         projectsAdapter.setListeners(new IProjectAdapterListener() {

@@ -40,8 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 //https://api.github.com/orgs/square/repos
 public class GitIntractor implements MainListContract.MainListIntactor, CommitsContract.CommitsIntactor, ContributorContract.ContributorIntactor, ProjectInfoContract.ProjectInfoIntactor {
-    Retrofit retrofit = null;
-    Activity activity = null;
+    private Activity activity;
 
     private IGitMassage messagesApi;
     private AppDatabase db;
@@ -52,7 +51,7 @@ public class GitIntractor implements MainListContract.MainListIntactor, CommitsC
     }
 
     public GitIntractor(Context context, Activity a){
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getResources().getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

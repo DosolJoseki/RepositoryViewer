@@ -9,7 +9,7 @@ import com.home.joseki.repositoryviewer.interfaces.MainContract;
 import com.home.joseki.repositoryviewer.models.GitResult;
 
 public class ActivityIntractor implements MainContract.IActivityIntactor {
-    private AppCompatActivity activity = null;
+    private AppCompatActivity activity;
 
     public ActivityIntractor(AppCompatActivity a){
         activity = a;

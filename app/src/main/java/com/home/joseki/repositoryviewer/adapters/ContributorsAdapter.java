@@ -39,11 +39,11 @@ public class ContributorsAdapter extends RecyclerView.Adapter<ContributorsAdapte
         ContributorsViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            ivUserIcon = (ImageView) itemView.findViewById(R.id.iv_lc_user_pic);
-            tvContributeCount = (TextView) itemView.findViewById(R.id.tv_lc_contribute_count);
-            tvDeletions = (TextView) itemView.findViewById(R.id.tv_lc_deletions);
-            tcAdditions = (TextView) itemView.findViewById(R.id.tv_lc_additions);
-            tvUserName = (TextView) itemView.findViewById(R.id.tv_lc_user_name);
+            ivUserIcon = itemView.findViewById(R.id.iv_lc_user_pic);
+            tvContributeCount = itemView.findViewById(R.id.tv_lc_contribute_count);
+            tvDeletions = itemView.findViewById(R.id.tv_lc_deletions);
+            tcAdditions = itemView.findViewById(R.id.tv_lc_additions);
+            tvUserName = itemView.findViewById(R.id.tv_lc_user_name);
         }
 
         void bind(Contributors contributors){
@@ -95,8 +95,6 @@ public class ContributorsAdapter extends RecyclerView.Adapter<ContributorsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ContributorsAdapter.ContributorsViewHolder holder, int position, @NonNull List<Object> payloads) {
-        final Contributors element = contributorList.get(position);
-
         super.onBindViewHolder(holder, position, payloads);
     }
 

@@ -27,20 +27,16 @@ import retrofit2.Response;
 
 public class ProjectInfoFragment extends Fragment implements ProjectInfoContract.ProjectInfoViewInterface {
 
-    private Context context = null;
     private TextView projectDecs;
     private TextView projectName;
-    private TextView projectStars;
     private TextView projectsContributors;
-    private Button btnCommits;
-    private Button btnContributes;
     private MainActivity activity;
     private ProjectInfoContract.PresenterInterface presenter = null;
     private int errorCount = 0;
     private GitResult result;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_project_info, null);
     }
@@ -55,21 +51,23 @@ public class ProjectInfoFragment extends Fragment implements ProjectInfoContract
         super.onResume();
 
         activity = (MainActivity)getActivity();
-        context = getContext();
+        Context context = getContext();
 
         Gson gson = new Gson();
         Bundle bundle = getArguments();
+        assert bundle != null;
         result = gson.fromJson(bundle.getString(getString(R.string.git_res_instance)), GitResult.class);
 
-        projectDecs = (TextView)getActivity().findViewById(R.id.tv_fpi_proj_desc);
-        projectName = (TextView)getActivity().findViewById(R.id.tv_fpi_proj_name);
-        projectStars = (TextView)getActivity().findViewById(R.id.tv_fpi_stars);
-        projectsContributors = (TextView)getActivity().findViewById(R.id.tv_fpi_contributors);
+        assert activity != null;
+        projectDecs = activity.findViewById(R.id.tv_fpi_proj_desc);
+        projectName = activity.findViewById(R.id.tv_fpi_proj_name);
+        TextView projectStars = activity.findViewById(R.id.tv_fpi_stars);
+        projectsContributors = activity.findViewById(R.id.tv_fpi_contributors);
 
         projectStars.setText(result.getStargazers_count());
 
-        btnCommits = (Button)getActivity().findViewById(R.id.btn_fpi_commits);
-        btnContributes = (Button)getActivity().findViewById(R.id.btn_fpi_contributes);
+        Button btnCommits = activity.findViewById(R.id.btn_fpi_commits);
+        Button btnContributes = activity.findViewById(R.id.btn_fpi_contributes);
 
         btnCommits.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +83,7 @@ public class ProjectInfoFragment extends Fragment implements ProjectInfoContract
             }
         });
 
+        assert context != null;
         presenter = new ProjectInfoPresenter(this, new GitIntractor(context, activity));
 
         presenter.getHttpData(result.getName());

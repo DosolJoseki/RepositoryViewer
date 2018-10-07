@@ -45,9 +45,9 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.Projec
         ProjectViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvProjName = (TextView) itemView.findViewById(R.id.tvProjName);
-            tvStarCount = (TextView) itemView.findViewById(R.id.tvStarCount);
-            tvForkCount = (TextView) itemView.findViewById(R.id.tvForkCount);
+            tvProjName = itemView.findViewById(R.id.tvProjName);
+            tvStarCount = itemView.findViewById(R.id.tvStarCount);
+            tvForkCount = itemView.findViewById(R.id.tvForkCount);
         }
 
         void bind(GitResult project){

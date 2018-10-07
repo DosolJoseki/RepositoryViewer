@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -15,8 +16,8 @@ import retrofit2.Response;
 
 public class ProjectInfoPresenter implements ProjectInfoContract.PresenterInterface {
 
-    private ProjectInfoContract.ProjectInfoViewInterface view = null;
-    private ProjectInfoContract.ProjectInfoIntactor noticeIntactor = null;
+    private ProjectInfoContract.ProjectInfoViewInterface view;
+    private ProjectInfoContract.ProjectInfoIntactor noticeIntactor;
 
     public ProjectInfoPresenter(ProjectInfoContract.ProjectInfoViewInterface mvi, ProjectInfoContract.ProjectInfoIntactor gni){
         view = mvi;
@@ -31,7 +32,8 @@ public class ProjectInfoPresenter implements ProjectInfoContract.PresenterInterf
             return;
         }
 
-        noticeIntactor.isOnline().subscribe(new Consumer<Boolean>() {
+        final CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(noticeIntactor.isOnline().subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) {
                 if (aBoolean){
@@ -49,6 +51,7 @@ public class ProjectInfoPresenter implements ProjectInfoContract.PresenterInterf
                                            @Override
                                            public void onNext(Response<List<Contributors>> gitResults) {
                                                if(gitResults == null || gitResults.body() == null){
+                                                   assert gitResults != null;
                                                    if(gitResults.errorBody() != null){
                                                        try {
                                                            view.showToast(gitResults.errorBody().string());
@@ -80,6 +83,7 @@ public class ProjectInfoPresenter implements ProjectInfoContract.PresenterInterf
                                                if(view != null){
                                                    view.showProgress(false);
                                                }
+                                               compositeDisposable.dispose();
                                            }
                                        }
                             );
@@ -87,6 +91,6 @@ public class ProjectInfoPresenter implements ProjectInfoContract.PresenterInterf
                     view.showToast(noticeIntactor.getResourceString(R.string.error_string_no_internet_connection));
                 }
             }
-        });
+        }));
     }
 }

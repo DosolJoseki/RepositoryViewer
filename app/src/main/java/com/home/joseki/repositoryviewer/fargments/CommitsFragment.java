@@ -33,16 +33,12 @@ public class CommitsFragment extends Fragment implements CommitsContract.Commits
     CommitsAdapter commitsAdapter = null;
     RecyclerView commitListView = null;
 
-    private Context context = null;
-    private MainActivity activity = null;
-    private RecyclerView.LayoutManager layoutManager = null;
     private SwipeRefreshLayout swipeRefreshLayout = null;
     private CommitsContract.PresenterInterface presenter = null;
-    private GitResult result = null;
     private TextView appName = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_commits, null);
     }
@@ -56,11 +52,12 @@ public class CommitsFragment extends Fragment implements CommitsContract.Commits
     public void onResume() {
         super.onResume();
 
-        context = getContext();
-        activity = (MainActivity)getActivity();
+        Context context = getContext();
+        MainActivity activity = (MainActivity) getActivity();
         commitsAdapter = new CommitsAdapter();
-        layoutManager = new LinearLayoutManager(activity);
-        swipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.srlCommit);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
+        assert activity != null;
+        swipeRefreshLayout = activity.findViewById(R.id.srlCommit);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -68,16 +65,18 @@ public class CommitsFragment extends Fragment implements CommitsContract.Commits
             }
         });
 
-        appName = (TextView)activity.findViewById(R.id.tv_comm_proj_name);
+        appName = activity.findViewById(R.id.tv_comm_proj_name);
 
-        commitListView = (RecyclerView)activity.findViewById(R.id.rv_contr_contribute_list);
+        commitListView = activity.findViewById(R.id.rv_contr_contribute_list);
         commitListView.setLayoutManager(layoutManager);
         commitListView.setAdapter(commitsAdapter);
 
         Gson gson = new Gson();
         Bundle bundle = getArguments();
-        result = gson.fromJson(bundle.getString(getString(R.string.git_res_instance)), GitResult.class);
+        assert bundle != null;
+        GitResult result = gson.fromJson(bundle.getString(getString(R.string.git_res_instance)), GitResult.class);
 
+        assert context != null;
         presenter = new CommitsPresenter(this, new GitIntractor(context, activity), result);
 
         commitsAdapter.setListeners(new ICommitAdapterListener() {
