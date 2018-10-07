@@ -6,8 +6,6 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import com.home.joseki.repositoryviewer.R;
 import com.home.joseki.repositoryviewer.enums.RoomTableEnum;
@@ -220,24 +218,6 @@ public class GitIntractor implements MainListContract.MainListIntactor, CommitsC
 
     @Override
     public Single<Boolean> isOnline() {
-        /*return Single.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call(){
-                try {
-                    ConnectivityManager cm =
-                            (ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-                    if(cm != null) {
-                        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-                        return activeNetwork.isConnectedOrConnecting();
-                    }
-                    return false;
-                } catch (Exception e) {
-                    return false;
-                }
-            }
-        }).subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread());*/
-
         return Single.fromCallable(new Callable<Boolean>() {
             @Override
             public Boolean call() {
