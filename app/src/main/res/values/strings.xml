@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">RepositoryViewer</string>
+    <string name="base_url">https://api.github.com/</string>
+
+    <string name="error_string_http_empty">Http response is empty</string>
+    <string name="error_string_http_unknownerror">Unknown http error!</string>
+    <string name="error_string_no_internet_connection">No internet connection!</string>
+
+    <string name="btn_contributes">Contributes</string>
+    <string name="btn_commits">Commits</string>
+
+    <string name="git_res_instance">gitResultInstance</string>
+
+    <string name="fragment_main_tag">fragment_main_tag</string>
+    <string name="fragment_info_tag">fragment_info_tag</string>
+    <string name="fragment_commits_tag">fragment_commits_tag</string>
+    <string name="fragment_contributors_tag">fragment_contributors_tag</string>
+
+    <string name="preferences_last_page_main">1</string>
+    <string name="preferences_last_page_commits">1</string>
+</resources>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+    android:id="@+id/tb_proj_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:elevation="10dp"
+    android:minHeight="?attr/actionBarSize">
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_margin="8dp"
+                android:textSize="24sp"
+                android:textColor="@color/colorWhite"
+                android:id="@+id/tv_fpi_proj_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="2dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    app:srcCompat="@mipmap/icon_star" />
+
+                <TextView
+                    android:id="@+id/tv_fpi_stars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="25"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="2dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    app:srcCompat="@mipmap/icon_contributors" />
+
+                <TextView
+                    android:id="@+id/tv_fpi_contributors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:textSize="16sp" />
+
+            </android.support.v7.widget.LinearLayoutCompat>
+        </android.support.v7.widget.LinearLayoutCompat>
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/tv_fpi_proj_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/tb_proj_info"
+        app:layout_constraintTop_toBottomOf="@+id/tb_proj_info" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_fpi_commits"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_commits" />
+
+        <Button
+            android:id="@+id/btn_fpi_contributes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_contributes" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
