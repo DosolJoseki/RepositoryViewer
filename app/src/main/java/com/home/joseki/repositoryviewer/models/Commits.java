@@ -5,6 +5,7 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +13,10 @@ import java.util.List;
 
 @Entity
 public class Commits {
+
+    public Commits(){
+        node_id = "";
+    }
 
     @ColumnInfo(name = "html_url_commits")
     private String html_url;
@@ -120,12 +125,13 @@ public class Commits {
         this.url = url;
     }
 
+    @NonNull
     public String getNode_id ()
     {
         return node_id;
     }
 
-    public void setNode_id (String node_id)
+    public void setNode_id (@NonNull String node_id)
     {
         this.node_id = node_id;
     }

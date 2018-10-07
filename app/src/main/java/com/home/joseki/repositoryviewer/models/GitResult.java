@@ -15,6 +15,10 @@ import java.util.List;
 @Entity
 public class GitResult {
 
+    public GitResult(){
+        name = "";
+    }
+
     private String has_issues;
 
     private String teams_url;

@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
 import com.home.joseki.repositoryviewer.dal.ConvertorsWeeks;
 
@@ -13,6 +14,10 @@ import java.util.List;
 
 @Entity(primaryKeys = {"contr_id", "url"})
 public class Contributors {
+    public Contributors(){
+        url = "";
+        contr_id = "";
+    }
 
     @NotNull
     private String url;
@@ -67,15 +72,16 @@ public class Contributors {
         return author.getId();
     }
 
-    public void setContr_id(String contr_id) {
+    public void setContr_id(@NonNull String contr_id) {
         this.contr_id = contr_id;
     }
 
+    @NonNull
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(@NonNull String url) {
         this.url = url;
     }
 }
